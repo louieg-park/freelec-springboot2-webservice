@@ -6,23 +6,22 @@ buildscript {
     repositories {
         mavenCentral()
         /* jcenter() 지원중단 */
-        /**/
         dependencies {
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+            classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+            classpath "io.spring.gradle:dependency-management-plugin:1.0.12.RELEASE"
         }
     }
-
-    apply {
-        plugin: 'java'
-        plugin: 'eclipse'
-        plugin: 'org.springframework.boot'
-        plugin: 'io.spring.dependency-management' /* 스프링 부트의 의존성들을 관리해주는 플러그인(반드시 추가) */
-    }
 }
-
+/* 교재 내용대로 그레이들을 작성하게 되면 spring-boot-starter-web, spring-boot-starter-test 등 Plugin id를 못찾는 에러 발생! ↓ 아래 글을 통해 해결 */
+/* 참고 : https://stackoverflow.com/questions/55145066/plugin-with-id-org-springframework-boot-not-found */
 plugins {
     id 'java'
+    id 'eclipse'
+    id 'org.springframework.boot' version '2.6.9'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 }
+
+    apply plugin: 'io.spring.dependency-management' /* 스프링 부트의 의존성들을 관리해주는 플러그인(반드시 추가) */
 
 group 'com.jojoldu.book'
 version '1.0-SNAPSHOT'
@@ -36,6 +35,9 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly('org.projectlombok:lombok')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
