@@ -1,0 +1,43 @@
+buildscript {
+    /* build.gradle 에서 사용하는 전역변수를 설정  */
+    ext {
+        springBootVersion = '2.6.9' /* springBootVersion : 전역변수 / '2.6.9' : 변수 값 */
+    }
+    repositories {
+        mavenCentral()
+        /* jcenter() 지원중단 */
+        /**/
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        }
+    }
+
+    apply {
+        plugin: 'java'
+        plugin: 'eclipse'
+        plugin: 'org.springframework.boot'
+        plugin: 'io.spring.dependency-management' /* 스프링 부트의 의존성들을 관리해주는 플러그인(반드시 추가) */
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'com.jojoldu.book'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 11
+
+/* 각종 의존성(라이브러리_들을 어떤 원격 저장소에서 받을지 정하는 곳 */
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
